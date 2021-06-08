@@ -4,7 +4,6 @@ import "@uppy/dashboard/dist/style.css";
 import "@uppy/webcam/dist/style.css";
 import "@uppy/url/dist/style.css";
 
-import { useState } from "react";
 import Webcam from "@uppy/webcam";
 import Url from "@uppy/url";
 import XHRUpload from "@uppy/xhr-upload";
@@ -15,10 +14,7 @@ import axios from 'axios';
 
 
 function App() {
-  const [open, setOpen] = useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
+  
   const uppy = new Uppy({ maxFileSize: 20000000 })
     .use(Webcam, {
       id: "Webcam",
@@ -55,8 +51,6 @@ function App() {
   return (
     <DashboardModal
       uppy={uppy}
-      open={open}
-      onRequestClose={handleClose}
       plugins={["Webcam", "Url"]}
     />
   );
