@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import "./App.css";
 import "@uppy/core/dist/style.css";
 import "@uppy/dashboard/dist/style.css";
@@ -15,17 +16,15 @@ import axios from 'axios';
 
 function App() {
   
+  // const [count,setCount] = useState(0);
+  let count = 0;
+  document.querySelector(".uppy-DashboardContent-title");
   const uppy = new Uppy({ maxFileSize: 20000000 })
-    .use(Webcam, {
-      id: "Webcam",
-      modes: ["picture"],
-    })
     .use(Url, {
       target: null,
       companionUrl: "https://companion.uppy.io/",
       locale: {},
-    })
-    .use(XHRUpload, {
+    }).use(XHRUpload, {
       endpoint: "https://xhr-server.herokuapp.com/upload/",
       fieldName: "photo",
       FormData: true,
@@ -37,23 +36,31 @@ function App() {
     .on("upload-success",async (file, response) => {
       console.log("response.status", response.status); // HTTP status code
       console.log("response.uploadURL", response.body);
+      console.log("response", response);
       console.log("file", file); // extracted response data;
       const prefix = "https://deepbase.herokuapp.com/image_url?name=";
       let res = prefix.concat(response.body.url);
       console.log("res", res);
       try{
         const response = await axios.get(res);
-         console.log(response); 
+        if(response.status === 200){
+          // setCount(prevState=>prevState+1);
+          count++;
+        }
+        console.log("count",count);
+        console.log(response); 
      }catch(err){
              console.log(err); 
      }
     });
+    // document.querySelector(".uppy-DashboardContent-title").innerHTML=`${count} Upload complete`;
   return (
     <DashboardModal
       uppy={uppy}
-      plugins={["Webcam", "Url"]}
+      plugins={[ "Url"]}
     />
   );
 }
+
 
 export default App;
