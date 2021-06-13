@@ -7,7 +7,7 @@
 }
 .uppy-Root .uppy-size--md .uppy-DashboardTab-btn,.uppy-Root .uppy-size--md .uppy-DashboardTab svg {
   width: 300px;
-  height: 300px;
+  height: 200px;
 }
 .uppy-Root .uppy-Dashboard--modal[aria-hidden="true"] {
   display: block;
