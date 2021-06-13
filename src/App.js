@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState,useRef,useEffect} from 'react';
 import "./App.css";
 import "@uppy/core/dist/style.css";
 import "@uppy/dashboard/dist/style.css";
@@ -15,8 +15,19 @@ import axios from 'axios';
 
 
 function App() {
-  
-  // const [count,setCount] = useState(0);
+
+
+  //const [count,setCount] = useState(0);
+  const dashboard=useRef();
+  useEffect(()=>{
+    console.log('test')
+    if(dashboard.current){
+      console.log(dashboard.current.container)
+      const btn =dashboard.current.container.querySelector(`[aria-controls="uppy-DashboardContent-panel--Url"]`);
+      console.log(btn)
+      btn.setAttribute("class","hidden");
+    }
+  },[dashboard])
   let count = 0;
   document.querySelector(".uppy-DashboardContent-title");
   const uppy = new Uppy({ maxFileSize: 20000000 })
@@ -49,13 +60,15 @@ function App() {
         }
         console.log("count",count);
         console.log(response); 
+        document.querySelector(".uppy-DashboardContent-title").textContent=`${count} Upload complete`;
+
      }catch(err){
              console.log(err); 
      }
     });
-    // document.querySelector(".uppy-DashboardContent-title").innerHTML=`${count} Upload complete`;
   return (
     <DashboardModal
+      ref={dashboard}
       uppy={uppy}
       plugins={[ "Url"]}
     />
