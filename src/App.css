@@ -6,9 +6,11 @@
   display: none;
 }
 .uppy-Root .uppy-size--md .uppy-DashboardTab-btn,.uppy-Root .uppy-size--md .uppy-DashboardTab svg {
-  width: 300px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
+  background: transparent;
 }
+
 .uppy-Root .uppy-Dashboard--modal[aria-hidden="true"] {
   display: block;
 }
@@ -109,4 +111,7 @@ background: #4D4D4D;
   fill:#00BCD4;
 }
 
-
+.uppy-Root .uppy-ProviderIconBg:hover{
+  fill: #00BCD4;
+  transition: 0.5s ease-in-out;
+}
