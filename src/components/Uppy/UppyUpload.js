@@ -1,5 +1,5 @@
 import {useRef,useEffect} from 'react';
-import "./App.css";
+import "./uppyUpload.css";
 import "@uppy/core/dist/style.css";
 import "@uppy/dashboard/dist/style.css";
 import "@uppy/webcam/dist/style.css";
@@ -8,17 +8,13 @@ import "@uppy/url/dist/style.css";
 import Url from "@uppy/url";
 import XHRUpload from "@uppy/xhr-upload";
 import Uppy from "@uppy/core";
-import ImageCompressor from'uppy-plugin-image-compressor';
 import { DashboardModal } from "@uppy/react";
 import axios from 'axios';
 
 
-
-
-function App() {
+function UppyUpload({signUrl}) {
 
   const dashboard=useRef();
-  let imageUrl='';
 
   useEffect(()=>{
     if(dashboard.current){
@@ -32,8 +28,9 @@ function App() {
       console.log(dashboard.current.container.querySelector(".uppy-Dashboard-AddFiles-title").textContent =`Drop files or `);
       console.log(dashboard.current.container.querySelector(".uppy-Dashboard-AddFiles-title").appendChild(broweseBtn));
 
+
     }
-  },[dashboard,imageUrl])
+  },[dashboard])
   let count = 0;
 
   const uppy = new Uppy({ maxFileSize: 20000000 })
@@ -45,18 +42,18 @@ function App() {
       endpoint: "https://xhr-server.herokuapp.com/upload/",
       fieldName: "photo",
       FormData: true,
-    }).use(ImageCompressor, {
-      quality: 0.6,
-    }).on("upload-success",async (file, response) => {
+    })
+    .on("upload-success",async (file, response) => {
+      console.log("response.status", response.status); // HTTP status code
+      console.log("response.uploadURL", response.body);
       console.log("response", response);
       console.log("file", file); // extracted response data;
       const prefix = "https://deepbase.herokuapp.com/image_url?name=";
       let res = prefix.concat(response.body.url);
       console.log("res", res);
-      imageUrl=response.body.url;
-
       try{
         const getResponse = await axios.get(res);
+        signUrl(response.body.url);
         if(getResponse.status === 200){
           count++;
         }
@@ -67,20 +64,14 @@ function App() {
      }catch(err){
              console.log(err); 
      }
-    })
-
+    });
   return (
-      <DashboardModal
-        ref={dashboard}
-        uppy={uppy}
-        plugins={[ "Url"]}
-      />
-
-      
-  
-      
- 
+    <DashboardModal
+      ref={dashboard}
+      uppy={uppy}
+      plugins={[ "Url"]}
+    />
   );
 }
 
-export default App;
+export default UppyUpload;
