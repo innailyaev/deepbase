@@ -2,7 +2,6 @@ import {useRef,useEffect} from 'react';
 import "./App.css";
 import "@uppy/core/dist/style.css";
 import "@uppy/dashboard/dist/style.css";
-import "@uppy/webcam/dist/style.css";
 import "@uppy/url/dist/style.css";
 
 import Url from "@uppy/url";
