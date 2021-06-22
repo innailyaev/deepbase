@@ -20,6 +20,18 @@ function App() {
   const dashboard=useRef();
   let imageUrl='';
 
+  // const [details, setDetails] = useState(null);
+  const getUserGeolocationDetails = async() => {
+    let {data} = await axios.get("https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572")
+    // setDetails(data);
+    // {`${details.city}, ${details.country_name}(${details.country_code})`}
+    
+};
+
+  useEffect(()=>{
+    getUserGeolocationDetails();
+  },[])
+
   useEffect(()=>{
     if(dashboard.current){
       const btn =dashboard.current.container.querySelector(`[aria-controls="uppy-DashboardContent-panel--Url"]`);
@@ -31,7 +43,6 @@ function App() {
 
       console.log(dashboard.current.container.querySelector(".uppy-Dashboard-AddFiles-title").textContent =`Drop files or `);
       console.log(dashboard.current.container.querySelector(".uppy-Dashboard-AddFiles-title").appendChild(broweseBtn));
-
     }
   },[dashboard,imageUrl])
   let count = 0;
@@ -60,9 +71,26 @@ function App() {
         if(getResponse.status === 200){
           count++;
         }
-        console.log("count",count);
-        console.log(getResponse); 
         document.querySelector(".uppy-DashboardContent-title").textContent=`${count} Upload complete`;
+        
+        navigator.geolocation.getCurrentPosition(function(position) {
+          console.log("Latitude is :", position.coords.latitude);
+          console.log("Longitude is :", position.coords.longitude);
+        });
+        console.log("appCodeName:",navigator.appCodeName);
+        console.log("appName:",navigator.appName);
+        console.log("appVersion:",navigator.appVersion);
+        console.log("cookieEnabled:",navigator.cookieEnabled);
+        console.log("language:",navigator.language);
+        console.log("onLine:",navigator.onLine);
+        console.log("platform:",navigator.platform);
+        console.log("product:",navigator.product);
+        console.log("userAgent:",navigator.userAgent);
+        console.log("screen.height:",window.screen.height);
+        console.log("screen.width::",window.screen.width);
+        console.log("screen.pixelDepth::",window.screen.pixelDepth);
+
+
 
      }catch(err){
              console.log(err); 
