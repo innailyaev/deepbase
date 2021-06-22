@@ -20,16 +20,16 @@ function App() {
   let imageUrl='';
 
   // const [details, setDetails] = useState(null);
-  const getUserGeolocationDetails = async() => {
-    let {data} = await axios.get("https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572")
+  // const getUserGeolocationDetails = async() => {
+  //   let {data} = await axios.get("https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572")
     // setDetails(data);
     // {`${details.city}, ${details.country_name}(${details.country_code})`}
     
-};
 
-  useEffect(()=>{
-    getUserGeolocationDetails();
-  },[])
+
+  // useEffect(()=>{
+  //   getUserGeolocationDetails();
+  // },[])
 
   useEffect(()=>{
     if(dashboard.current){
@@ -108,6 +108,7 @@ function App() {
       
  
   );
-}
+  }
+
 
 export default App;
