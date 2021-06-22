@@ -61,12 +61,16 @@ function App() {
       console.log("response", response);
       console.log("file", file); // extracted response data;
       const prefix = "https://deepbase.herokuapp.com/image_url?name=";
+      const prefix2 = "https://deepbase1.herokuapp.com/image_url?name=";
       let res = prefix.concat(response.body.url);
-      console.log("res", res);
+      let res2 = prefix2.concat(response.body.url);
+      console.log("res", res,res2);
       imageUrl=response.body.url;
 
       try{
         const getResponse = await axios.get(res);
+        const getResponse2 = await axios.get(res2);
+
         if(getResponse.status === 200){
           count++;
         }
