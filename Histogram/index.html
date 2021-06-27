@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+<canvas id="histogram"></canvas>
+
+<defs>
+  <filter id="main" x="0" y="0" width="0" height="0">
+    <feimage xlink:href="#red" result="red"></feimage>
+    <feimage xlink:href="#green" result="green"></feimage>
+    <feimage xlink:href="#blue" result="blue"></feimage>
+    <feblend mode="screen" in="red" in2="green" result="blend1"></feblend>
+    <feblend mode="screen" in="blend1" in2="blue"></feblend>
+  </filter>
+  <path id="red" fill="#ff0000"></path>
+  <path id="green" fill="#00ff00"></path>
+  <path id="blue" fill="#0000ff"></path>
+</defs>
+<canvas id="canvas"></canvas>
+<script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js"></script> 
+<script src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js'></script> 
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/3.0.5/vue.min.js'></script> 
+<script src="index.js"></script> 
+</body>
+</html>

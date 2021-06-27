@@ -1,5 +1,5 @@
 import {useRef,useEffect} from 'react';
-import "./App.css";
+
 import "@uppy/core/dist/style.css";
 import "@uppy/dashboard/dist/style.css";
 import "@uppy/url/dist/style.css";
@@ -7,39 +7,25 @@ import "@uppy/url/dist/style.css";
 import Url from "@uppy/url";
 import XHRUpload from "@uppy/xhr-upload";
 import Uppy from "@uppy/core";
-import ImageCompressor from'uppy-plugin-image-compressor';
+import ImageCompressor from 'uppy-plugin-image-compressor';
 import { DashboardModal } from "@uppy/react";
 import axios from 'axios';
 
 
 
-
-function App() {
+function UppyUpload() {
 
   const dashboard=useRef();
   let imageUrl='';
 
-  // const [details, setDetails] = useState(null);
-  // const getUserGeolocationDetails = async() => {
-  //   let {data} = await axios.get("https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572")
-    // setDetails(data);
-    // {`${details.city}, ${details.country_name}(${details.country_code})`}
-    
-
-
-  // useEffect(()=>{
-  //   getUserGeolocationDetails();
-  // },[])
-
+ 
   useEffect(()=>{
     if(dashboard.current){
       const btn =dashboard.current.container.querySelector(`[aria-controls="uppy-DashboardContent-panel--Url"]`);
       btn.setAttribute("class","hidden");
       const broweseBtn=dashboard.current.container.querySelector(".uppy-Dashboard-browse");
+      
       console.log(broweseBtn)
-      // dashboard.current.container.querySelector(".uppy-size--md .uppy-Dashboard-AddFiles-title").setAttribute('contentEditable',true)
-      // dashboard.current.container.querySelector(".uppy-size--md .uppy-Dashboard-AddFiles-title").setAttribute('dangerouslySetInnerHTML', { __html: `drop files here ${broweseBtn}`});
-
       console.log(dashboard.current.container.querySelector(".uppy-Dashboard-AddFiles-title").textContent =`Drop files or `);
       console.log(dashboard.current.container.querySelector(".uppy-Dashboard-AddFiles-title").appendChild(broweseBtn));
     }
@@ -70,49 +56,50 @@ function App() {
       try{
         const getResponse = await axios.get(res);
         const getResponse2 = await axios.get(res2);
+        const {data} = await axios.get("https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572");
 
         if(getResponse.status === 200){
           count++;
         }
         document.querySelector(".uppy-DashboardContent-title").textContent=`${count} Upload complete`;
         
-        navigator.geolocation.getCurrentPosition(function(position) {
-          console.log("Latitude is :", position.coords.latitude);
-          console.log("Longitude is :", position.coords.longitude);
-        });
-        console.log("appCodeName:",navigator.appCodeName);
-        console.log("appName:",navigator.appName);
-        console.log("appVersion:",navigator.appVersion);
-        console.log("cookieEnabled:",navigator.cookieEnabled);
-        console.log("language:",navigator.language);
-        console.log("onLine:",navigator.onLine);
-        console.log("platform:",navigator.platform);
-        console.log("product:",navigator.product);
-        console.log("userAgent:",navigator.userAgent);
-        console.log("screen.height:",window.screen.height);
-        console.log("screen.width::",window.screen.width);
-        console.log("screen.pixelDepth::",window.screen.pixelDepth);
+        const userInfo = {
+          city:data.city, 
+          country_name:data.country_name,
+          country_code:data.country_code,
+          appCodeName: navigator.appCodeName,
+          appName: navigator.appName,
+          appVersion: navigator.appVersion,
+          cookieEnabled: navigator.cookieEnabled,
+          language: navigator.language,
+          onLine: navigator.onLine,
+          platform: navigator.platform,
+          product: navigator.product,
+          userAgent: navigator.userAgent,
+          screenHeight: window.screen.height,
+          screenWidth: window.screen.width,
+          screenPixelDepth: window.screen.pixelDepth
+        }
 
-
-
+        console.log("userInfo:",userInfo);
+        
      }catch(err){
              console.log(err); 
      }
     })
 
   return (
+    <div>
       <DashboardModal
         ref={dashboard}
         uppy={uppy}
         plugins={[ "Url"]}
       />
-
-      
+    </div>
   
-      
- 
+
+
   );
-  }
+}
 
-
-export default App;
+export default UppyUpload;
