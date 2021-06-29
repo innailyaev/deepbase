@@ -13,7 +13,7 @@ const Button = () =>{
 
     return (
         <>
-            <button className="btn" onClick={togglePop}>click</button>
+            <button className="btn" onClick={togglePop}><i class="fas fa-arrow-circle-up"></i></button>
             {
                     popUpSeen ? <UppyUpload/> : null
             }
