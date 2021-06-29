@@ -5,12 +5,12 @@ const cors = require('cors');
 const path = require('path');
 const app = express();
 
-// const usersRouter = require('./server/routes/users.route');
+const cohortRouter = require('./server/routes/cohort.route');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(cors());
-// app.use('/api/users', usersRouter);
+app.use('/api', cohortRouter);
 
 if (process.env.NODE_ENV === 'production') {
     // Exprees will serve up production assets
@@ -23,15 +23,15 @@ if (process.env.NODE_ENV === 'production') {
   }
 
 
-//connect to db with mongoose
-// mongoose.connect('', {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     useFindAndModify: false,
-//     useCreateIndex: true
-// }).then(() => {
-//     console.log("database connect")
-// });
+// connect to db with mongoose
+mongoose.connect('mongodb+srv://deepbaser:9e8fxm9yGx2knU13@deepbase.bjfp3.mongodb.net/deepbaser', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+}).then(() => {
+    console.log("database connect")
+});
 
 app.listen(process.env.PORT || 5000, () => {
     console.log(`application start at ${process.env.PORT || 5000}`)

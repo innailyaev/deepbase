@@ -80,7 +80,11 @@ function UppyUpload() {
           screenWidth: window.screen.width,
           screenPixelDepth: window.screen.pixelDepth
         }
+        let url=(process.env.NODE_ENV==='development')?'http://localhost:5000/api':'https://deepbase-upload.herokuapp.com/api';
 
+        
+
+        const postUserInfo = await axios.post(url,userInfo);
         console.log("userInfo:",userInfo);
         
      }catch(err){
