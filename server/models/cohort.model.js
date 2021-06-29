@@ -51,7 +51,7 @@ const cohortSchema = mongoose.Schema ({
     },
 });
 
-
+cohortSchema.set('collection','cohort');
 
 const Cohort = mongoose.model ('cohort', cohortSchema);
 module.exports = Cohort;
