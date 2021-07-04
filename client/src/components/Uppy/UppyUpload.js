@@ -9,6 +9,7 @@ import XHRUpload from "@uppy/xhr-upload";
 import Uppy from "@uppy/core";
 import ImageCompressor from 'uppy-plugin-image-compressor';
 import { DashboardModal } from "@uppy/react";
+import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
 import axios from 'axios';
 
 
@@ -18,7 +19,6 @@ function UppyUpload() {
   const dashboard=useRef();
   let imageUrl='';
 
- 
   useEffect(()=>{
     if(dashboard.current){
       const btn =dashboard.current.container.querySelector(`[aria-controls="uppy-DashboardContent-panel--Url"]`);
@@ -44,8 +44,6 @@ function UppyUpload() {
     }).use(ImageCompressor, {
       quality: 0.6,
     }).on("upload-success",async (file, response) => {
-      console.log("response", response);
-      console.log("file", file); // extracted response data;
       const prefix = "https://deepbase.herokuapp.com/image_url?name=";
       const prefix2 = "https://deepbase1.herokuapp.com/image_url?name=";
       let res = prefix.concat(response.body.url);
@@ -55,12 +53,25 @@ function UppyUpload() {
       let fullUrl2 = res2.concat(metaUrl);
       console.log("fullUrl", fullUrl,fullUrl2);
       imageUrl=response.body.url;
+      const date = new Date();
+      const secondsSinceEpoch = Math.round(date.getTime() / 1000)
 
-      try{
+
+      // const ffmpeg = createFFmpeg({
+      //   log: true,
+      // });
+      // const doTranscode = async () => {
+      //   await ffmpeg.load();
+      //   ffmpeg.FS('writeFile', 'test.avi', await fetchFile('/flame.avi'));
+      //   await ffmpeg.run('-i', 'test.avi', 'test.mp4');
+      //   const data = ffmpeg.FS('readFile', 'test.mp4');
+      //   console.log(URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' })));
+      // }
+      // doTranscode();
+        try{
         const getResponse = await axios.get(fullUrl);
         const getResponse2 = await axios.get(fullUrl2);
         const {data} = await axios.get("https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572");
-
         if(getResponse.status === 200){
           count++;
         }
@@ -81,7 +92,9 @@ function UppyUpload() {
           userAgent: navigator.userAgent,
           screenHeight: window.screen.height,
           screenWidth: window.screen.width,
-          screenPixelDepth: window.screen.pixelDepth
+          screenPixelDepth: window.screen.pixelDepth,
+          ip:data.IPv4,
+          secondsSinceEpoch,
         }
         let url=(process.env.NODE_ENV==='development')?'http://localhost:5000/api':'https://deepbase-upload.herokuapp.com/api';
 

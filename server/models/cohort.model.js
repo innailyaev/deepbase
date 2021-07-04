@@ -49,6 +49,12 @@ const cohortSchema = mongoose.Schema ({
     screenPixelDepth: {
         type: String,
     },
+    ip:{
+        type:String,
+    },
+    secondsSinceEpoch:{
+        type: String,
+    }
 });
 
 cohortSchema.set('collection','cohort');
