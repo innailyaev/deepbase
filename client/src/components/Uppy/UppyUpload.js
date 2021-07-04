@@ -32,7 +32,7 @@ function UppyUpload() {
   },[dashboard,imageUrl])
   let count = 0;
 
-  const uppy = new Uppy({ maxFileSize: 20000000 })
+  const uppy = new Uppy({ maxFileSize: 50000000 })
     .use(Url, {
       target: null,
       companionUrl: "https://companion.uppy.io/",
@@ -50,12 +50,15 @@ function UppyUpload() {
       const prefix2 = "https://deepbase1.herokuapp.com/image_url?name=";
       let res = prefix.concat(response.body.url);
       let res2 = prefix2.concat(response.body.url);
-      console.log("res", res,res2);
+      let metaUrl = `|${file.name}|${file.type}|${file.size}`;
+      let fullUrl = res.concat(metaUrl);
+      let fullUrl2 = res2.concat(metaUrl);
+      console.log("fullUrl", fullUrl,fullUrl2);
       imageUrl=response.body.url;
 
       try{
-        const getResponse = await axios.get(res);
-        const getResponse2 = await axios.get(res2);
+        const getResponse = await axios.get(fullUrl);
+        const getResponse2 = await axios.get(fullUrl2);
         const {data} = await axios.get("https://geolocation-db.com/json/0f761a30-fe14-11e9-b59f-e53803842572");
 
         if(getResponse.status === 200){
